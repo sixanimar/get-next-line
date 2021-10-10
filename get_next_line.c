@@ -6,16 +6,25 @@
 /*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 16:31:01 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/08 16:09:33 by jguscins         ###   ########.fr       */
+/*   Updated: 2021/10/10 19:29:22 by jguscins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_out(char *line)
+char	*ft_out(char *line, char *buff, int ret)
 {
 	char	*final;
+	int		i;
+	int		j;
 
+	i = 0;
+	j = 0;
+	ft_bzero(buff, ret);
+	while (line[i] != '\n')
+		i++;
+	while (line[++i])
+		buff[j++] = line[i];
 	final = ft_cutline(line, '\n');
 	return (final);
 }
@@ -56,21 +65,23 @@ char	*get_next_line(int fd)
 	char			*line;
 	int				ret;
 
-	line = calloc(1, 1);
+	line = ft_calloc(1, 1);
+	if (buff[0])
+		line = ft_substr(buff, 0, ft_strlen(buff));
 	ret = BUFFER_SIZE;
-	while (ret == BUFFER_SIZE || ret == -1)
+	while (ret == BUFFER_SIZE || ret != -1)
 	{
 		ret = read(fd, buff, BUFFER_SIZE);
-		if (ret == -1)
+		if (ret == -1 || ret == 0)
 			return (NULL);
 		buff[ret] = '\0';
 		line = ft_expand(line, buff);
 		if ((ft_strchr(line, '\n')))
 		{
-			ft_bzero(ft_strchr(buff, '\n'), ret);
-			return (ft_out(line));
+			return (ft_out(line, buff, ret));
 		}
+		if (ret < BUFFER_SIZE && ret != 0)
+			return (line);
 	}
-	return (NULL);
-
+	return (line);
 }

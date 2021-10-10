@@ -6,7 +6,7 @@
 /*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:04:48 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/08 14:48:34 by jguscins         ###   ########.fr       */
+/*   Updated: 2021/10/10 19:06:35 by jguscins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*ft_cutline(char *line, char c)
 	i = 0;
 	while(line[i] != c)
 		i++;
-	newline = ft_substr(line, 0, i);
+	newline = ft_substr(line, 0, ++i);
 	free(line);
 	line = newline;
 	return(line);
