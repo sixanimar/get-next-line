@@ -6,7 +6,7 @@
 /*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:12:24 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/08 15:47:53 by jguscins         ###   ########.fr       */
+/*   Updated: 2021/10/11 13:50:06 by jguscins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t num, size_t size);
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
+# define BUFFER_SIZE 1
 #endif
 
 #endif

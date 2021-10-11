@@ -6,7 +6,7 @@
 /*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 16:31:01 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/10 19:29:22 by jguscins         ###   ########.fr       */
+/*   Updated: 2021/10/11 14:21:59 by jguscins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,29 @@ char	*get_next_line(int fd)
 	char			*line;
 	int				ret;
 
+	if (fd < 0)
+		return (NULL);
 	line = ft_calloc(1, 1);
 	if (buff[0])
+	{
 		line = ft_substr(buff, 0, ft_strlen(buff));
-	while (!(ft_strchr(buff, '\n')))
+		ft_bzero(buff, ft_strlen(buff));
+	}
+	ret = 1;
+	while (!(ft_strchr(buff, '\n')) && ret != 0)
 	{
 		ret = read(fd, buff, BUFFER_SIZE);
-		if (ret == -1 || ret == 0)
+		if (ret == -1)
+		{
+			free(line);
 			return (NULL);
+		}
 		buff[ret] = '\0';
 		line = ft_expand(line, buff);
 		if (ret < BUFFER_SIZE && ret != 0)
-			return (line);
+			return (buff);
 	}
+	if (ret == 0 && !line)
+		return (0);
 	return (ft_out(line, buff, ret));
 }
