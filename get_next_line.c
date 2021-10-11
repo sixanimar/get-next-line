@@ -68,20 +68,15 @@ char	*get_next_line(int fd)
 	line = ft_calloc(1, 1);
 	if (buff[0])
 		line = ft_substr(buff, 0, ft_strlen(buff));
-	ret = BUFFER_SIZE;
-	while (ret == BUFFER_SIZE || ret != -1)
+	while (!(ft_strchr(buff, '\n')))
 	{
 		ret = read(fd, buff, BUFFER_SIZE);
 		if (ret == -1 || ret == 0)
 			return (NULL);
 		buff[ret] = '\0';
 		line = ft_expand(line, buff);
-		if ((ft_strchr(line, '\n')))
-		{
-			return (ft_out(line, buff, ret));
-		}
 		if (ret < BUFFER_SIZE && ret != 0)
 			return (line);
 	}
-	return (line);
+	return (ft_out(line, buff, ret));
 }
