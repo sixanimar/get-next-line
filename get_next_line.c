@@ -6,88 +6,99 @@
 /*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 16:31:01 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/11 14:21:59 by jguscins         ###   ########.fr       */
+/*   Updated: 2021/10/12 01:14:36 by jguscins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_out(char *line, char *buff, int ret)
+char	*get_next_line(int fd)
 {
-	char	*final;
+	char		*line;
+	static char	*buff;
+
+	if (fd < 0 || BUFFER_SIZE < 1)
+		return (NULL);
+	buff = read_line(fd, buff);
+	if (buff[0] == '\0')
+		return (NULL);
+	line = ft_cutline(buff);
+	buff = new_buff(buff);
+	return (line);
+}
+
+char	*read_line(int fd, char *buff)
+{
+	char	*temp;
+	int		ret;
+
+	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!temp)
+		return (NULL);
+	ret = 1;
+	while (!ft_strchr(buff, '\n') && ret != 0)
+	{
+		ret = read(fd, temp, BUFFER_SIZE);
+		if (ret == -1)
+		{
+			free(temp);
+			return (NULL);
+		}
+		temp[ret] = 0;
+		buff = ft_strjoin(buff, temp);
+	}
+	free(temp);
+	return (buff);
+}
+
+char	*ft_cutline(char *buff)
+{
+	int		i;
+	char	*line;
+
+	i = 0;
+	while (buff[i] && buff[i] != '\n')
+		i++;
+	line = malloc((i + 2) * sizeof(char));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (buff[i] && buff[i] != '\n')
+	{
+		line[i] = buff[i];
+		i++;
+	}
+	if (buff[i] == '\n')
+	{
+		line[i] = buff[i];
+		i++;
+	}
+	line[i] = 0;
+	return (line);
+}
+
+char	*new_buff(char *buff)
+{
+	char	*new_buff;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	ft_bzero(buff, ret);
-	while (line[i] != '\n')
+	while (buff[i] && buff[i] != '\n')
 		i++;
-	while (line[++i])
-		buff[j++] = line[i];
-	final = ft_cutline(line, '\n');
-	return (final);
-}
-
-char	*ft_strchr(const char *str, int n)
-{
-	while (*str != n && *str)
-		str++;
-	if (*str == n)
-		return ((char *)str);
-	return (0);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*p;
-
-	p = s;
-	while (n--)
+	if (!buff)
 	{
-		*p++ = 0;
-	}
-}
-
-void	*ft_calloc(size_t num, size_t size)
-{
-	void	*p;
-
-	p = malloc(num * size);
-	if (p)
-		ft_bzero(p, num * size);
-	return (p);
-}
-
-char	*get_next_line(int fd)
-{
-	static char		buff[BUFFER_SIZE + 1];
-	char			*line;
-	int				ret;
-
-	if (fd < 0)
+		free(buff);
 		return (NULL);
-	line = ft_calloc(1, 1);
-	if (buff[0])
-	{
-		line = ft_substr(buff, 0, ft_strlen(buff));
-		ft_bzero(buff, ft_strlen(buff));
 	}
-	ret = 1;
-	while (!(ft_strchr(buff, '\n')) && ret != 0)
-	{
-		ret = read(fd, buff, BUFFER_SIZE);
-		if (ret == -1)
-		{
-			free(line);
-			return (NULL);
-		}
-		buff[ret] = '\0';
-		line = ft_expand(line, buff);
-		if (ret < BUFFER_SIZE && ret != 0)
-			return (buff);
-	}
-	if (ret == 0 && !line)
-		return (0);
-	return (ft_out(line, buff, ret));
+	new_buff = malloc(sizeof(char) * (ft_strlen(buff) - i + 1));
+	if (!new_buff)
+		return (NULL);
+	i++;
+	while (buff[i])
+		new_buff[j++] = buff[i++];
+	new_buff[j] = 0;
+	free(buff);
+	return (new_buff);
 }
