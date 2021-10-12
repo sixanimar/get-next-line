@@ -18,9 +18,9 @@ char	*get_next_line(int fd)
 	static char	*buff;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
-		return (NULL);
+		return (0);
 	buff = read_line(fd, buff);
-	if (buff[0] == '\0')
+	if (!buff)
 		return (NULL);
 	line = ft_cutline(buff);
 	buff = new_buff(buff);
@@ -57,6 +57,8 @@ char	*ft_cutline(char *buff)
 	char	*line;
 
 	i = 0;
+	if (!buff[i])
+		return (NULL);
 	while (buff[i] && buff[i] != '\n')
 		i++;
 	line = malloc((i + 2) * sizeof(char));
@@ -87,7 +89,7 @@ char	*new_buff(char *buff)
 	j = 0;
 	while (buff[i] && buff[i] != '\n')
 		i++;
-	if (!buff)
+	if (!buff[i])
 	{
 		free(buff);
 		return (NULL);
