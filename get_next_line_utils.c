@@ -6,11 +6,64 @@
 /*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:04:48 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/10 19:06:35 by jguscins         ###   ########.fr       */
+/*   Updated: 2021/10/13 16:25:40 by jguscins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	ft_strlen(const char *str)
+{
+	int	len;
+
+	len = 0;
+	while(str[len])
+		len++;
+	return (len);
+}
+
+char	*ft_strjoin(char *buff, char *temp)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	i = 0;
+	j = 0;
+	if (!buff)
+	{
+		buff = malloc(1);
+		buff[0] = '\0';
+	}
+	if (!temp || !buff)
+		return (NULL);
+	str = malloc(sizeof(char) * (ft_strlen(buff) + ft_strlen(temp) + 1));
+	if (!str)
+		return (NULL);
+	while (buff[i])
+	{
+		str[i] = buff[i];
+		i++;
+	}
+	while (temp[j])
+		str[i++] = temp[j++];
+	str[i] = '\0';
+	free(buff);
+	return (str);
+}
+
+char	*ft_strchr(char const *str, char c)
+{
+	int		p;
+
+	p = 0;
+	if (!str)
+		return (NULL);
+	while (str[p])
+		if (str[p++] == c)
+			return ((char *)&str[--p]);
+	return (0);
+}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -34,66 +87,4 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	str[j] = 0;
 	return (str);
-}
-
-char	*ft_expand(char *new, char *origin)
-{
-	char	*newline;
-
-	newline = ft_strjoin(new, origin);
-	free(new);
-	new = newline;
-	return(new);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	int		i;
-	int		f;
-	char	*p;
-
-	p = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (p)
-	{
-		i = 0;
-		f = 0;
-		while (s1[i])
-		{
-			p[i] = s1[i];
-			i++;
-		}
-		while (s2[f])
-		{
-			p[i] = s2[f];
-			i++;
-			f++;
-		}
-		p[i] = 0;
-		return (p);
-	}
-	return (0);
-}
-
-int		ft_strlen(const char *str)
-{
-	int	size;
-
-	size = 0;
-	while(str[size])
-		size++;
-	return(size);
-}
-
-char	*ft_cutline(char *line, char c)
-{
-	int		i;
-	char	*newline;
-
-	i = 0;
-	while(line[i] != c)
-		i++;
-	newline = ft_substr(line, 0, ++i);
-	free(line);
-	line = newline;
-	return(line);
 }

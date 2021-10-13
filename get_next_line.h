@@ -6,7 +6,7 @@
 /*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:12:24 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/11 13:50:06 by jguscins         ###   ########.fr       */
+/*   Updated: 2021/10/13 16:26:23 by jguscins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,20 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+// get_next_line.c
 char	*get_next_line(int fd);
+char	*new_buffer(char *buffer);
+char	*returning_line(char *buffer);
+char	*ft_read_into_buff(char *buff, int fd);
+
+// get_next_line_utils.c
+int	    ft_strlen(const char *str);
+char	*ft_strjoin(char *buff, char *temp);
+char	*ft_strchr(char const *str, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	*ft_expand(char *new, char *origin);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_cutline(char *line, char c);
-int		ft_strlen(const char *str);
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t num, size_t size);
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 6
 #endif
 
 #endif

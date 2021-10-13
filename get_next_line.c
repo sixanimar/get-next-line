@@ -6,88 +6,77 @@
 /*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 16:31:01 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/11 14:21:59 by jguscins         ###   ########.fr       */
+/*   Updated: 2021/10/13 16:27:50 by jguscins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_out(char *line, char *buff, int ret)
+char	*ft_read_into_buff(char *buff, int fd)
 {
-	char	*final;
+	char	*temp;
+	int		ret;
+
+	temp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!temp)
+		return (NULL);
+	ret = 1;
+	while(!ft_strchr(buff, '\n') && ret != 0)
+	{
+		ret = read(fd, temp, BUFFER_SIZE);
+		if (ret == -1)
+		{
+			free(temp);
+			return (NULL);
+		}
+		temp[ret] = 0;
+		buff = ft_strjoin(buff, temp);
+	}
+	free(temp);
+	return (buff);
+}
+
+char	*returning_line(char *buffer)
+{
 	int		i;
-	int		j;
+	char	*line;
 
 	i = 0;
-	j = 0;
-	ft_bzero(buff, ret);
-	while (line[i] != '\n')
+	while (buffer[i] && buffer[i - 1] != '\n')
 		i++;
-	while (line[++i])
-		buff[j++] = line[i];
-	final = ft_cutline(line, '\n');
-	return (final);
+	line = ft_substr(buffer, 0, i);
+	return (line);
 }
 
-char	*ft_strchr(const char *str, int n)
+char	*new_buffer(char *buffer)
 {
-	while (*str != n && *str)
-		str++;
-	if (*str == n)
-		return ((char *)str);
-	return (0);
-}
+	char	*newbuff;
+	int		i;
 
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*p;
-
-	p = s;
-	while (n--)
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (!buffer[i])
 	{
-		*p++ = 0;
+		free(buffer);
+		return (NULL);
 	}
-}
-
-void	*ft_calloc(size_t num, size_t size)
-{
-	void	*p;
-
-	p = malloc(num * size);
-	if (p)
-		ft_bzero(p, num * size);
-	return (p);
+	newbuff = ft_substr(buffer, i + 1, ft_strlen(buffer) - i + 1);
+	free(buffer);
+	return (newbuff);
 }
 
 char	*get_next_line(int fd)
 {
-	static char		buff[BUFFER_SIZE + 1];
-	char			*line;
-	int				ret;
+	char		*line;
+	static char	*buffer;
 
-	if (fd < 0)
-		return (NULL);
-	line = ft_calloc(1, 1);
-	if (buff[0])
-	{
-		line = ft_substr(buff, 0, ft_strlen(buff));
-		ft_bzero(buff, ft_strlen(buff));
-	}
-	ret = 1;
-	while (!(ft_strchr(buff, '\n')) && ret != 0)
-	{
-		ret = read(fd, buff, BUFFER_SIZE);
-		if (ret == -1)
-		{
-			free(line);
-			return (NULL);
-		}
-		buff[ret] = '\0';
-		line = ft_expand(line, buff);
-		if (ret < BUFFER_SIZE && ret != 0)
-			return (buff);
-	}
-	if (ret == 0 && !line)
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (0);
-	return (ft_out(line, buff, ret));
+	buffer = ft_read_into_buff(buffer, fd);
+	if (!buffer)
+		return (NULL);
+	line = returning_line(buffer);
+	buffer = new_buffer(buffer);
+	return (line);
 }
