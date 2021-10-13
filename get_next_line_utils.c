@@ -6,7 +6,7 @@
 /*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:04:48 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/13 16:25:40 by jguscins         ###   ########.fr       */
+/*   Updated: 2021/10/13 17:09:22 by jguscins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strlen(const char *str)
 	int	len;
 
 	len = 0;
-	while(str[len])
+	while (str[len])
 		len++;
 	return (len);
 }
@@ -28,7 +28,7 @@ char	*ft_strjoin(char *buff, char *temp)
 	int		j;
 	char	*str;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	if (!buff)
 	{
@@ -37,14 +37,11 @@ char	*ft_strjoin(char *buff, char *temp)
 	}
 	if (!temp || !buff)
 		return (NULL);
-	str = malloc(sizeof(char) * (ft_strlen(buff) + ft_strlen(temp) + 1));
+	str = malloc(sizeof(char) * ((ft_strlen(buff) + ft_strlen(temp) + 1)));
 	if (!str)
 		return (NULL);
-	while (buff[i])
-	{
+	while (buff[++i])
 		str[i] = buff[i];
-		i++;
-	}
 	while (temp[j])
 		str[i++] = temp[j++];
 	str[i] = '\0';

@@ -6,7 +6,7 @@
 /*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 16:31:01 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/13 16:27:50 by jguscins         ###   ########.fr       */
+/*   Updated: 2021/10/13 17:06:19 by jguscins         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_read_into_buff(char *buff, int fd)
 	if (!temp)
 		return (NULL);
 	ret = 1;
-	while(!ft_strchr(buff, '\n') && ret != 0)
+	while (!ft_strchr(buff, '\n') && ret != 0)
 	{
 		ret = read(fd, temp, BUFFER_SIZE);
 		if (ret == -1)
@@ -42,6 +42,8 @@ char	*returning_line(char *buffer)
 	char	*line;
 
 	i = 0;
+	if (!buffer[0])
+		return (NULL);
 	while (buffer[i] && buffer[i - 1] != '\n')
 		i++;
 	line = ft_substr(buffer, 0, i);
