@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgusins <jguscins@student.42wolfsburg.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/07 16:31:01 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/20 00:53:03 by jgusins          ###   ########.fr       */
+/*   Created: 2021/10/20 00:25:38 by jgusins           #+#    #+#             */
+/*   Updated: 2021/10/20 00:53:22 by jgusins          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_read_into_buff(char *buff, int fd)
 {
@@ -44,7 +44,7 @@ char	*returning_line(char *buffer)
 	i = 0;
 	if (!buffer[0])
 		return (NULL);
-	while (buffer[i] && buffer[i] != '\n') // check why if (buffer buffer[i - 1] != '\n') causes mem leak
+	while (buffer[i] && buffer[i] != '\n')
 		i++;
 	line = ft_substr(buffer, 0, i + 1);
 	return (line);
@@ -71,14 +71,14 @@ char	*new_buffer(char *buffer)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*buffer;
+	static char	*buffer[1024];
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (0);
-	buffer = ft_read_into_buff(buffer, fd);
-	if (!buffer)
+	buffer[fd] = ft_read_into_buff(buffer[fd], fd);
+	if (!buffer[fd])
 		return (NULL);
-	line = returning_line(buffer);
-	buffer = new_buffer(buffer);
+	line = returning_line(buffer[fd]);
+	buffer[fd] = new_buffer(buffer[fd]);
 	return (line);
 }
