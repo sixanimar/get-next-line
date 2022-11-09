@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: jgusins <jguscins@student.42wolfsburg.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/07 17:04:48 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/13 17:09:22 by jguscins         ###   ########.fr       */
+/*   Created: 2021/10/20 00:24:06 by jgusins           #+#    #+#             */
+/*   Updated: 2021/10/20 00:26:44 by jgusins          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_strlen(const char *str)
 {

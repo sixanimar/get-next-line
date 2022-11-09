@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jguscins <jguscins@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: jgusins <jguscins@student.42wolfsburg.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/07 17:12:24 by jguscins          #+#    #+#             */
-/*   Updated: 2021/10/13 17:11:25 by jguscins         ###   ########.fr       */
+/*   Created: 2021/10/20 00:26:03 by jgusins           #+#    #+#             */
+/*   Updated: 2021/10/20 00:27:35 by jgusins          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-// get_next_line.c
+// get_next_line.c || get_next_line_bonus.c
 char	*get_next_line(int fd);
 char	*new_buffer(char *buffer);
 char	*returning_line(char *buffer);
 char	*ft_read_into_buff(char *buff, int fd);
 
-// get_next_line_utils.c
+// get_next_line_utils.c || get_next_line_utils_bonus.c
 int		ft_strlen(const char *str);
 char	*ft_strjoin(char *buff, char *temp);
 char	*ft_strchr(char const *str, char c);
